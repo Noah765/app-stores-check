@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply p-6;
+}
+
+/*
+@layer components {
+  .btn {
+    @apply text-white;
+  }
+} */
