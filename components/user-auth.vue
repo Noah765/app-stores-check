@@ -42,6 +42,7 @@ import {
   deleteUser,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getFirestore, collection, doc, deleteDoc } from "firebase/firestore";
 
 const props = defineProps(["firebaseApp"]);
 const emailRef = ref(null);
@@ -89,8 +90,14 @@ function inputValid(email, password) {
 function signOut() {
   firebaseSignOut(auth).catch((error) => (feedbackMessage.value = error.message));
 }
-function deleteAccount() {
-  deleteUser(auth.currentUser).catch((error) => (feedbackMessage.value = error.message));
+const db = getFirestore(props.firebaseApp);
+async function deleteAccount() {
+  try {
+    await deleteDoc(doc(collection(db, "users"), auth.currentUser.uid));
+    await deleteUser(auth.currentUser);
+  } catch (e) {
+    feedbackMessage.value = e;
+  }
 }
 
 const authUser = ref("signedOut");
