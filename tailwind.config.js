@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./app.vue"],
+  content: ["./app.vue", "./components/**/*.vue"],
   theme: {
     extend: {},
   },
