@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-3xl">App Stores Check</h1>
+    <span class="h-9 block" />
+    <!-- Reserve space for the editable title in <app-data /> -->
+    <span class="text-gray-400 text-sm print:hidden">Du kannst den Titel bearbeiten</span>
     <user-auth :firebaseApp="app" />
     <user-input @addApp="addApp" />
     <app-data :firebaseApp="app" @addAppCallback="(callback) => (addApp = callback)" />

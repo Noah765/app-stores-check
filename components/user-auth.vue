@@ -1,7 +1,7 @@
 <template>
-  <div class="border-2 rounded-lg p-2 absolute right-6 top-6 text-center shadow-lg">
+  <div class="border-2 rounded-lg p-2 fixed right-6 top-6 text-center shadow-lg print:hidden">
     <div v-if="authUser === 'signedOut'">
-      <input type="text" placeholder="Email-Adresse" ref="emailRef" />
+      <input type="email" placeholder="Email-Adresse" ref="emailRef" />
       <div class="flex items-center mt-1">
         <input
           :type="passwordVisible ? 'text' : 'password'"
@@ -88,7 +88,7 @@ function inputValid(email, password) {
 }
 
 function signOut() {
-  firebaseSignOut(auth).catch((error) => (feedbackMessage.value = error.message));
+  firebaseSignOut(auth).catch((e) => (feedbackMessage.value = e.message));
 }
 const db = getFirestore(props.firebaseApp);
 async function deleteAccount() {
@@ -96,7 +96,7 @@ async function deleteAccount() {
     await deleteDoc(doc(collection(db, "users"), auth.currentUser.uid));
     await deleteUser(auth.currentUser);
   } catch (e) {
-    feedbackMessage.value = e;
+    feedbackMessage.value = e.message;
   }
 }
 

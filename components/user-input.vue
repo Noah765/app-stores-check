@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <input type="text" class="mb-2 mt-8" placeholder="Suche..." ref="inputRef" @keyup="onInput" />
-    <table class="mb-4 border-2 inline-block rounded-lg text-center">
+  <div class="print:hidden">
+    <input type="text" class="mb-2 mt-6" placeholder="Suche..." ref="inputRef" @keyup="onInput" />
+    <table class="border-2 inline-block rounded-lg text-center">
       <tbody>
         <tr>
           <th class="border-r-2 p-2 px-4">Google Play Store</th>
@@ -82,7 +82,7 @@
           </td>
         </tr>
         <tr v-else>
-          <td colspan="4" class="border-t-2 p-2 text-gray-400">Versuche eine App zu suchen</td>
+          <td colspan="4" class="border-t-2 p-2 text-gray-400">Suche eine App</td>
         </tr>
       </tbody>
     </table>

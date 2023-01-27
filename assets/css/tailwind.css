@@ -11,13 +11,21 @@ input[type="password"] {
   @apply w-72 border-2 rounded-lg p-1 px-2 focus:border-gray-300 outline-none block;
 }
 
+textarea {
+  @apply w-full outline-none resize-none;
+}
+
 button {
   @apply w-72 border-2 rounded-lg p-1 px-2 hover:bg-gray-100 active:bg-gray-200 block;
 }
 
-/*
-@layer components {
-  .btn {
-    @apply text-white;
+@media print {
+  .print\:scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
-} */
+
+  .print\:scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* Firefox */
+  }
+}
