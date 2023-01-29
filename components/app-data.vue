@@ -2,12 +2,12 @@
   <div>
     <input type="text" class="absolute !top-6 left-4 border-none text-3xl h-10 bg-transparent !w-[calc(100%-1.5rem)]" value="App Stores Check" ref="titleRef" />
     <div v-if="apps.length !== 0" class="flex flex-col items-center mt-4">
-      <div class="border-2 rounded-lg text-center w-full mb-2">
-        <table class="w-full">
+      <div class="border-2 rounded-lg text-center w-full overflow-x-scroll mb-2">
+        <table class="w-full touch-none">
           <tbody ref="tableRef">
             <tr>
               <th class="border-r-2 p-2">Name</th>
-              <th class="border-r-2 p-2">
+              <th class="border-r-2 p-2 whitespace-nowrap">
                 Beschreibung
                 <span class="text-sm text-gray-400 print:hidden">(Bearbeitbar)</span>
               </th>
@@ -18,17 +18,17 @@
               <td class="border-t-2 border-r-2 p-2 relative min-w-[10rem]">
                 {{ app.title }}
                 <Icon @click="apps.splice(index, 1)" name="material-symbols:delete-outline-rounded" class="text-red-400 absolute left-2 cursor-pointer print:text-transparent" :class="apps.length === 1 ? 'bottom-2' : 'bottom-10'" size="26" />
-                <Icon v-if="apps.length !== 1" @mousedown="startDragging($event, index)" name="material-symbols:open-with-rounded" class="text-gray-400 absolute bottom-2 left-2 cursor-pointer print:text-transparent" size="26" />
+                <Icon v-if="apps.length !== 1" @pointerdown="startDragging($event, index)" name="material-symbols:open-with-rounded" class="text-gray-400 absolute bottom-2 left-2 cursor-pointer print:text-transparent" size="26" />
               </td>
-              <td class="border-t-2 border-r-2 p-2 w-full">
-                <textarea v-model="app.description" rows="6" class="bg-transparent print:scrollbar-hide" />
+              <td class="border-t-2 border-r-2 w-full relative">
+                <textarea v-model="app.description" class="bg-transparent absolute w-[calc(100%-1rem)] inset-2 print:scrollbar-hide" />
               </td>
               <td class="border-t-2 border-r-2 p-2 min-w-[10rem]">
                 <div v-if="app.googlePlay">
                   <a :href="app.googlePlay.url" target="_blank" rel="noopener noreferrer" class="underline print:no-underline">
                     {{ app.googlePlay.title }}
                   </a>
-                  <vue-qr-code :value="app.googlePlay.url" :color="{ dark: '#000000' }" type="image/jpeg" />
+                  <vue-qr-code :value="app.googlePlay.url" :color="{ dark: '#000000' }" type="image/jpeg" :margin="0" class="p-3" />
                 </div>
                 <span v-else class="text-gray-400">App nicht vorhanden</span>
               </td>
@@ -37,7 +37,7 @@
                   <a :href="app.appStore.url" target="_blank" rel="noopener noreferrer" class="underline print:no-underline">
                     {{ app.appStore.title }}
                   </a>
-                  <vue-qr-code :value="app.appStore.url" :color="{ dark: '#000000' }" type="image/jpeg" />
+                  <vue-qr-code :value="app.appStore.url" :color="{ dark: '#000000' }" type="image/jpeg" :margin="0" class="p-3" />
                 </div>
                 <span v-else class="text-gray-400">App nicht vorhanden</span>
               </td>
@@ -103,8 +103,10 @@ function startDragging(event, index) {
   const siblingElementsPosition = Array.prototype.map.call(parentElement.children, (element) => element.getBoundingClientRect().top - document.body.getBoundingClientRect().top);
 
   const previewElement = parentElement.insertBefore(document.createElement("tr"), element);
-  previewElement.style.borderTopWidth = "2px";
   previewElement.style.height = `${element.offsetHeight}px`;
+  const previewBorderElement = previewElement.appendChild(document.createElement("td"));
+  previewBorderElement.style.borderTopWidth = "2px";
+  previewBorderElement.colSpan = "4";
   let previewElementPosition = index + 1;
 
   element.style.position = "absolute";
@@ -113,15 +115,16 @@ function startDragging(event, index) {
   element.style.top = `${event.pageY - cursorElementOffset}px`;
 
   element.style.width = "calc(100% - 3rem)";
+  element.style.overflowX = "hidden";
   element.style.borderLeftWidth = "2px";
   element.style.borderRightWidth = "2px";
   element.style.borderBottomWidth = "2px";
   element.style.textAlign = "center";
 
-  let mouseMoveEventListener;
+  let pointerMoveEventListener;
   document.addEventListener(
-    "mousemove",
-    (mouseMoveEventListener = (event) => {
+    "pointermove",
+    (pointerMoveEventListener = (event) => {
       const elementPosition = event.pageY - cursorElementOffset;
       element.style.top = `${elementPosition}px`;
 
@@ -135,12 +138,12 @@ function startDragging(event, index) {
     })
   );
 
-  let mouseUpEventListener;
+  let pointerUpEventListener;
   document.addEventListener(
-    "mouseup",
-    (mouseUpEventListener = () => {
-      document.removeEventListener("mousemove", mouseMoveEventListener);
-      document.removeEventListener("mouseup", mouseUpEventListener);
+    "pointerup",
+    (pointerUpEventListener = () => {
+      document.removeEventListener("pointermove", pointerMoveEventListener);
+      document.removeEventListener("pointerup", pointerUpEventListener);
 
       parentElement.insertBefore(element, parentElement.children[previewElementPosition - 1 < index ? index + 2 : index + 1]);
 
@@ -153,6 +156,7 @@ function startDragging(event, index) {
       element.style.position = null;
       element.style.top = null;
       element.style.width = null;
+      element.style.overflowX = null;
       element.style.borderLeftWidth = null;
       element.style.borderRightWidth = null;
       element.style.borderBottomWidth = null;

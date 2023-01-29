@@ -1,47 +1,31 @@
 <template>
-  <div class="border-2 rounded-lg p-2 fixed right-6 top-6 text-center shadow-lg print:hidden">
-    <div v-if="authUser === 'signedOut'">
-      <input type="email" placeholder="Email-Adresse" ref="emailRef" />
-      <div class="flex items-center mt-1">
-        <input
-          :type="passwordVisible ? 'text' : 'password'"
-          placeholder="Passwort"
-          ref="passwordRef"
-        />
-        <Icon
-          :name="`material-symbols:${
-            passwordVisible ? 'visibility-off-outline-rounded' : 'visibility-outline-rounded'
-          }`"
-          size="24"
-          class="absolute right-5 cursor-pointer text-gray-400"
-          @click="passwordVisible = !passwordVisible"
-        />
+  <div class="flex justify-center mt-6 md:mt-0 md:fixed md:right-6 md:top-6 print:hidden">
+    <div class="border-2 rounded-lg p-2 text-center relative md:shadow-lg bg-white">
+      <div v-if="authUser === 'signedOut'">
+        <input type="email" placeholder="Email-Adresse" ref="emailRef" />
+        <div class="flex items-center mt-1">
+          <input :type="passwordVisible ? 'text' : 'password'" placeholder="Passwort" ref="passwordRef" />
+          <Icon :name="`material-symbols:${passwordVisible ? 'visibility-off-outline-rounded' : 'visibility-outline-rounded'}`" size="24" class="absolute right-5 cursor-pointer text-gray-400" @click="passwordVisible = !passwordVisible" />
+        </div>
+
+        <span class="text-gray-400 text-sm block">{{ feedbackMessage }}</span>
+
+        <button @click="signIn" :class="feedbackMessage ? 'mt-2' : 'mt-4'">Anmelden</button>
+        <span class="text-gray-400 text-sm block">Oder</span>
+        <button @click="signUp">Registrieren</button>
       </div>
-
-      <span class="text-gray-400 text-sm block">{{ feedbackMessage }}</span>
-
-      <button @click="signIn" :class="feedbackMessage ? 'mt-2' : 'mt-4'">Anmelden</button>
-      <span class="text-gray-400 text-sm block">Oder</span>
-      <button @click="signUp">Registrieren</button>
-    </div>
-    <div v-else>
-      <span class="mb-2 block">Angemeldet als {{ authUser }}</span>
-      <span class="text-gray-400 text-sm block">{{ feedbackMessage }}</span>
-      <button class="mb-1" @click="signOut">Abmelden</button>
-      <button @click="deleteAccount" class="text-red-400">Account löschen</button>
+      <div v-else>
+        <span class="mb-2 block">Angemeldet als {{ authUser }}</span>
+        <span class="text-gray-400 text-sm block">{{ feedbackMessage }}</span>
+        <button class="mb-1" @click="signOut">Abmelden</button>
+        <button @click="deleteAccount" class="text-red-400">Account löschen</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  deleteUser,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, deleteUser, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, deleteDoc } from "firebase/firestore";
 
 const props = defineProps(["firebaseApp"]);
@@ -58,9 +42,7 @@ function signUp() {
   const password = passwordRef.value.value;
 
   if (inputValid(email, password)) {
-    createUserWithEmailAndPassword(auth, email, password).catch(
-      (error) => (feedbackMessage.value = error.message)
-    );
+    createUserWithEmailAndPassword(auth, email, password).catch((error) => (feedbackMessage.value = error.message));
   }
 }
 function signIn() {
@@ -68,9 +50,7 @@ function signIn() {
   const password = passwordRef.value.value;
 
   if (inputValid(email, password)) {
-    signInWithEmailAndPassword(auth, email, password).catch(
-      (error) => (feedbackMessage.value = error.message)
-    );
+    signInWithEmailAndPassword(auth, email, password).catch((error) => (feedbackMessage.value = error.message));
   }
 }
 

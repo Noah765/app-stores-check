@@ -1,10 +1,7 @@
 <template>
   <div class="print:hidden">
     <input type="text" class="mb-2 mt-6" placeholder="Suche..." ref="inputRef" @keyup="onInput" />
-    <span class="text-sm text-gray-400 block" v-if="suggestions.googlePlay">
-      Klicke auf den App Namen, um die gesuchte App auszuwählen. Sollte sie<br />
-      in einem Store nicht vorhanden sein, klicke auf "Nicht vorhanden"
-    </span>
+    <span class="text-sm text-gray-400 block w-[30rem]" v-if="suggestions.googlePlay">Klicke auf den App Namen, um die gesuchte App auszuwählen. Sollte sie in einem Store nicht vorhanden sein, klicke auf "Nicht vorhanden"</span>
     <table class="border-2 inline-block rounded-lg text-center">
       <tbody>
         <tr>
