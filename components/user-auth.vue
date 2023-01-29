@@ -28,7 +28,7 @@
       <span class="mb-2 block">Angemeldet als {{ authUser }}</span>
       <span class="text-gray-400 text-sm block">{{ feedbackMessage }}</span>
       <button class="mb-1" @click="signOut">Abmelden</button>
-      <button @click="deleteAccount">Account löschen</button>
+      <button @click="deleteAccount" class="text-red-400">Account löschen</button>
     </div>
   </div>
 </template>
