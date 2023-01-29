@@ -3,7 +3,7 @@
     <input type="text" class="absolute !top-6 left-4 border-none text-3xl h-10 bg-transparent !w-[calc(100%-1.5rem)]" value="App Stores Check" ref="titleRef" />
     <div v-if="apps.length !== 0" class="flex flex-col items-center mt-4">
       <div class="border-2 rounded-lg text-center w-full overflow-x-scroll mb-2">
-        <table class="w-full touch-none">
+        <table class="w-full">
           <tbody ref="tableRef">
             <tr>
               <th class="border-r-2 p-2">Name</th>
@@ -17,8 +17,20 @@
             <tr v-for="(app, index) in apps" :key="index">
               <td class="border-t-2 border-r-2 p-2 relative min-w-[10rem]">
                 {{ app.title }}
-                <Icon @click="apps.splice(index, 1)" name="material-symbols:delete-outline-rounded" class="text-red-400 absolute left-2 cursor-pointer print:text-transparent" :class="apps.length === 1 ? 'bottom-2' : 'bottom-10'" size="26" />
-                <Icon v-if="apps.length !== 1" @pointerdown="startDragging($event, index)" name="material-symbols:open-with-rounded" class="text-gray-400 absolute bottom-2 left-2 cursor-pointer print:text-transparent" size="26" />
+                <Icon
+                  @click="apps.splice(index, 1)"
+                  name="material-symbols:delete-outline-rounded"
+                  class="text-red-400 absolute left-2 cursor-pointer print:text-transparent"
+                  :class="apps.length === 1 ? 'bottom-2' : 'bottom-10'"
+                  size="26"
+                />
+                <Icon
+                  v-if="apps.length !== 1"
+                  @pointerdown="startDragging($event, index)"
+                  name="material-symbols:open-with-rounded"
+                  class="text-gray-400 absolute bottom-2 left-2 cursor-pointer print:text-transparent touch-none"
+                  size="26"
+                />
               </td>
               <td class="border-t-2 border-r-2 w-full relative">
                 <textarea v-model="app.description" class="bg-transparent absolute w-[calc(100%-1rem)] inset-2 print:scrollbar-hide" />
