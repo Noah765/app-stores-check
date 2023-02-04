@@ -8,33 +8,57 @@
           <th class="border-r-2 p-2 px-4">Google Play Store</th>
           <th class="p-2 px-4">Apple App Store</th>
         </tr>
-        <tr v-for="(app, index) in suggestions.googlePlay" :key="index">
+        <tr v-for="(number, index) in suggestions.googlePlay ? (suggestions.googlePlay.length > suggestions.appStore.length ? suggestions.googlePlay.length : suggestions.appStore.length) : 0" :key="index">
           <td
             class="border-t-2 border-r-2 p-2"
-            :class="selectedSuggestions.googlePlay === undefined ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200' : selectedSuggestions.googlePlay === index ? 'bg-gray-100 cursor-pointer active:bg-gray-200' : 'invisible select-none'"
-            @click="selectedSuggestions.googlePlay === undefined || selectedSuggestions.googlePlay === index ? clickSuggestion('googlePlay', index) : undefined"
+            :class="
+              suggestions.googlePlay[index]
+                ? selectedSuggestions.googlePlay === undefined
+                  ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200'
+                  : selectedSuggestions.googlePlay === index
+                  ? 'bg-gray-100 cursor-pointer active:bg-gray-200'
+                  : 'invisible select-none'
+                : ''
+            "
+            @click="suggestions.googlePlay[index] && (selectedSuggestions.googlePlay === undefined || selectedSuggestions.googlePlay === index) ? clickSuggestion('googlePlay', index) : undefined"
           >
-            {{ app.title }}
+            {{ suggestions.googlePlay[index] ? suggestions.googlePlay[index].title : undefined }}
           </td>
           <td
             class="border-t-2 p-2"
-            :class="selectedSuggestions.appStore === undefined ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200' : selectedSuggestions.appStore === index ? 'bg-gray-100 cursor-pointer active:bg-gray-200' : 'invisible select-none'"
-            @click="selectedSuggestions.appStore === undefined || selectedSuggestions.appStore === index ? clickSuggestion('appStore', index) : undefined"
+            :class="
+              suggestions.appStore[index]
+                ? selectedSuggestions.appStore === undefined
+                  ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200'
+                  : selectedSuggestions.appStore === index
+                  ? 'bg-gray-100 cursor-pointer active:bg-gray-200'
+                  : 'invisible select-none'
+                : ''
+            "
+            @click="suggestions.appStore[index] && (selectedSuggestions.appStore === undefined || selectedSuggestions.appStore === index) ? clickSuggestion('appStore', index) : undefined"
           >
-            {{ suggestions.appStore[index].title }}
+            {{ suggestions.appStore[index] ? suggestions.appStore[index].title : undefined }}
           </td>
         </tr>
         <tr class="text-gray-400" v-if="suggestions.googlePlay">
           <td
             class="border-t-2 border-r-2 p-2"
-            :class="selectedSuggestions.googlePlay === undefined ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200' : selectedSuggestions.googlePlay === null ? 'bg-gray-100 cursor-pointer active:bg-gray-200' : 'invisible select-none'"
+            :class="
+              selectedSuggestions.googlePlay === undefined
+                ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200'
+                : selectedSuggestions.googlePlay === null
+                ? 'bg-gray-100 cursor-pointer active:bg-gray-200'
+                : 'invisible select-none'
+            "
             @click="selectedSuggestions.googlePlay === undefined || selectedSuggestions.googlePlay === null ? clickSuggestion('googlePlay', null) : undefined"
           >
             Nicht vorhanden
           </td>
           <td
             class="border-t-2 p-2"
-            :class="selectedSuggestions.appStore === undefined ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200' : selectedSuggestions.appStore === null ? 'bg-gray-100 cursor-pointer active:bg-gray-200' : 'invisible select-none'"
+            :class="
+              selectedSuggestions.appStore === undefined ? 'cursor-pointer hover:bg-gray-100 active:bg-gray-200' : selectedSuggestions.appStore === null ? 'bg-gray-100 cursor-pointer active:bg-gray-200' : 'invisible select-none'
+            "
             @click="selectedSuggestions.appStore === undefined || selectedSuggestions.appStore === null ? clickSuggestion('appStore', null) : undefined"
           >
             Nicht vorhanden
