@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  @apply p-6;
+  @apply p-6 bg-white;
 }
 
 input[type="text"],
