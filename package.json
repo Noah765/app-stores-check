@@ -1,4 +1,6 @@
 {
+  "name": "nuxt-app",
+  "type": "module",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -7,15 +9,17 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.3.0",
-    "nuxt": "^3.1.1",
-    "nuxt-icon": "^0.2.10"
-  },
   "dependencies": {
-    "firebase": "^9.16.0",
+    "@nuxt/icon": "^1.15.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "firebase": "^12.1.0",
+    "google-play-scraper": "^10.0.1",
     "he": "^1.2.0",
-    "qrcode": "^1.5.1",
-    "vue-qrcode": "^2.2.0"
+    "nuxt": "^4.0.1",
+    "qrcode": "^1.5.4",
+    "tailwindcss": "^4.1.11",
+    "vue": "^3.5.18",
+    "vue-qrcode": "^2.2.2",
+    "vue-router": "^4.5.1"
   }
 }

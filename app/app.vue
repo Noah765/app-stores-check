@@ -2,9 +2,14 @@
   <div>
     <span class="h-9 block" />
     <!-- Reserve space for the editable title in <app-data /> -->
-    <span class="text-gray-400 text-sm print:hidden">Du kannst den Titel bearbeiten</span>
+    <span class="text-gray-400 text-sm print:hidden"
+      >Du kannst den Titel bearbeiten</span
+    >
     <user-input @addApp="addApp" />
-    <app-data :firebaseApp="app" @addAppCallback="(callback) => (addApp = callback)" />
+    <app-data
+      :firebaseApp="app"
+      @addAppCallback="(callback) => (addApp = callback)"
+    />
     <user-auth :firebaseApp="app" />
   </div>
 </template>
